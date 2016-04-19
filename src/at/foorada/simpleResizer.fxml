@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.control.cell.*?>
+<?import javafx.scene.layout.*?>
+
+<?import at.foorada.CheckBoxCellFactory?>
+
+<GridPane hgap="10" vgap="10" BorderPane.alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.foorada.Controller">
+   <children>
+           <FlowPane>
+              <children>
+                  <Label fx:id="directoryTitle" contentDisplay="RIGHT" text="Pfad:">
+                      <padding>
+                          <Insets left="20.0" />
+                      </padding>
+                  </Label>
+                  <TextField fx:id="directoryString" onAction="#directoryFieldAction" prefWidth="250.0">
+                      <FlowPane.margin>
+                          <Insets left="10.0" />
+                      </FlowPane.margin>
+                  </TextField>
+                  <Button fx:id="directoryBtn" onAction="#handleDirectoryChooser" text="Ordner auswählen">
+                      <FlowPane.margin>
+                          <Insets left="10.0" />
+                      </FlowPane.margin>
+                  </Button>
+              </children>
+               <padding>
+                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+           </FlowPane>
+           <FlowPane style="-fx-border-color: lightGray; -fx-border-radius: 5px;" GridPane.rowIndex="1">
+              <children>
+                  <RadioButton fx:id="scalingPercentageRdBtn" mnemonicParsing="false" onAction="#updateScreenOnAction" prefWidth="200.0" text="Prozentuel skalieren:">
+                      <toggleGroup>
+                          <ToggleGroup fx:id="scalingGroup" />
+                      </toggleGroup>
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </RadioButton>
+                  <TextField fx:id="percentageTextField" onKeyReleased="#checkPercentage" onKeyTyped="#preCheckPercentage" text="100">
+                      <FlowPane.margin>
+                          <Insets />
+                      </FlowPane.margin>
+                  </TextField>
+                  <Label text="\%">
+                      <FlowPane.margin>
+                          <Insets left="10.0" />
+                      </FlowPane.margin>
+                  </Label>
+              </children>
+               <GridPane.margin>
+                   <Insets />
+               </GridPane.margin>
+               <padding>
+                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+           </FlowPane>
+           <FlowPane prefWrapLength="0.0" style="-fx-border-color: lightGray; -fx-border-radius: 5px;" GridPane.rowIndex="2">
+              <children>
+                  <RadioButton fx:id="scalingWidthRdBtn" mnemonicParsing="false" onAction="#updateScreenOnAction" prefWidth="200.0" text="Auf Breites skalieren:" toggleGroup="$scalingGroup">
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </RadioButton>
+                  <TextField fx:id="widthTextField" onKeyReleased="#checkScalingWidth" onKeyTyped="#preCheckScalingWidth" text="0">
+                      <FlowPane.margin>
+                          <Insets />
+                      </FlowPane.margin>
+                  </TextField>
+                  <Label layoutX="30.0" layoutY="14.0" text="px">
+                      <FlowPane.margin>
+                          <Insets left="10.0" />
+                      </FlowPane.margin>
+                  </Label>
+              </children>
+               <padding>
+                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+           </FlowPane>
+           <FlowPane prefWrapLength="0.0" style="-fx-border-color: lightGray; -fx-border-radius: 5px;" GridPane.rowIndex="3">
+              <children>
+                  <RadioButton fx:id="scalingHeightRdBtn" mnemonicParsing="false" onAction="#updateScreenOnAction" prefWidth="200.0" text="Auf Höhe skalieren:" toggleGroup="$scalingGroup">
+                     <FlowPane.margin>
+                        <Insets left="10.0" />
+                     </FlowPane.margin>
+                  </RadioButton>
+                      <TextField fx:id="heightTextField" onKeyReleased="#checkScalingHeight" onKeyTyped="#preCheckScalingHeight" text="0">
+                          <FlowPane.margin>
+                              <Insets />
+                          </FlowPane.margin>
+                      </TextField>
+                      <Label text="px">
+                          <FlowPane.margin>
+                              <Insets left="10.0" />
+                          </FlowPane.margin>
+                      </Label>
+              </children>
+               <padding>
+                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+           </FlowPane>
+           <TableView fx:id="resizingTable" editable="true" minHeight="250.0" onKeyReleased="#keyPressedResizingTableView" GridPane.rowIndex="4">
+               <columns>
+                   <TableColumn editable="true" prefWidth="34" resizable="false" text="">
+                       <cellValueFactory>
+                           <PropertyValueFactory property="checked" />
+                       </cellValueFactory>
+                       <cellFactory>
+                        <CheckBoxCellFactory/>
+                    </cellFactory>
+                   </TableColumn>
+                   <TableColumn prefWidth="200.0" text="Name">
+                       <cellValueFactory>
+                           <PropertyValueFactory property="fileName" />
+                       </cellValueFactory>
+                   </TableColumn>
+                   <TableColumn prefWidth="100.0" text="Aktuelle Größe">
+                       <cellValueFactory>
+                           <PropertyValueFactory property="curSize" />
+                       </cellValueFactory>
+                   </TableColumn>
+                   <TableColumn prefWidth="100.0" text="Neue Größe">
+                       <cellValueFactory>
+                           <PropertyValueFactory property="newSize" />
+                       </cellValueFactory>
+                   </TableColumn>
+               </columns>
+           </TableView>
+    <HBox alignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+    <ProgressBar fx:id="resizingProgressBar" maxWidth="Infinity" HBox.hgrow="ALWAYS">
+
+          </ProgressBar>
+          <Button mnemonicParsing="false" fx:id="resizeBtn" onAction="#resizeFilesBtn" text="Größe ändern">
+                <HBox.margin>
+                  <Insets left="10.0" />
+               </HBox.margin>
+          </Button>
+    </HBox>
+   </children>
+    <BorderPane.margin>
+        <Insets />
+    </BorderPane.margin>
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+    </padding>
+    <rowConstraints>
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints />
+        <RowConstraints vgrow="ALWAYS" />
+        <RowConstraints valignment="CENTER" vgrow="ALWAYS" />
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints percentWidth="100.0" />
+    </columnConstraints>
+</GridPane>
